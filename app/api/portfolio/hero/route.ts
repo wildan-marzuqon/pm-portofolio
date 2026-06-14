@@ -3,7 +3,7 @@ import { prisma } from '@/lib/prisma'
 
 export async function GET() {
   try {
-    const hero = await prisma.hero.findFirst({
+    const hero = await (prisma as any).hero.findFirst({
       include: {
         pillars: {
           orderBy: { sortOrder: 'asc' },
@@ -26,7 +26,7 @@ export async function GET() {
       name: hero.name,
       headline: hero.headline,
       description: hero.description,
-      pillars: hero.pillars.map((pillar) => ({
+      pillars: hero.pillars.map((pillar: { label: string; title: string; text: string }) => ({
         label: pillar.label,
         title: pillar.title,
         text: pillar.text,
