@@ -1,32 +1,72 @@
 'use client';
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { ArrowRight, Download } from 'lucide-react';
 
+type HeroPillar = {
+  label: string;
+  title: string;
+  text: string;
+};
+
+type HeroData = {
+  badge: string;
+  name: string;
+  headline: string;
+  description: string;
+  pillars: HeroPillar[];
+};
+
 const Hero = () => {
+  const [data, setData] = useState<HeroData | null>(null);
+
+  useEffect(() => {
+    const loadHero = async () => {
+      try {
+        const response = await fetch('/api/portfolio/hero');
+        const result = (await response.json()) as HeroData;
+        setData(result);
+      } catch (error) {
+        console.error('Failed to load hero data:', error);
+      }
+    };
+
+    loadHero();
+  }, []);
+
+  if (!data) {
+    return (
+      <section className="min-h-screen bg-white">
+        <div className="mx-auto flex w-full max-w-7xl items-center justify-center px-6 py-16 sm:px-8 lg:px-12">
+          <p className="text-sm text-slate-500">Loading hero content...</p>
+        </div>
+      </section>
+    );
+  }
+
   return (
     <section className="min-h-screen bg-white">
       <div className="mx-auto flex w-full max-w-7xl flex-col items-start justify-center px-6 py-16 sm:px-8 lg:px-12">
         {/* Top Badge */}
         <div className="mb-8 inline-flex items-center gap-2 rounded-full bg-blue-50 px-4 py-2 sm:mb-10">
           <span className="text-sm font-semibold text-blue-700 sm:text-base">
-            Product Manager • AI & Digital Products
+            {data.badge}
           </span>
         </div>
 
         {/* Name */}
         <p className="mb-2 text-sm font-medium uppercase tracking-[0.25em] text-blue-500 sm:text-base sm:mb-3">
-          Wildan Marzuqon
+          {data.name}
         </p>
 
         {/* Main Headline */}
         <h1 className="mb-6 max-w-4xl text-4xl font-bold leading-tight text-slate-900 sm:text-5xl lg:text-6xl lg:mb-8 xl:text-7xl">
-          Building AI-Powered Products and Digital Experiences
+          {data.headline}
         </h1>
 
         {/* Description */}
         <p className="mb-10 max-w-2xl text-base leading-relaxed text-slate-600 sm:text-lg sm:mb-12 lg:text-lg">
-          Saya adalah Product Manager yang menjembatani teknologi AI dan kebutuhan pengguna. Berpengalaman mengelola siklus produk end-to-end—mulai dari discovery, NLP & Chatbot development, hingga delivery produk digital yang berdampak nyata.
+          {data.description}
         </p>
 
         {/* CTA Buttons */}
@@ -50,44 +90,22 @@ const Hero = () => {
         {/* Core Pillars */}
         <div className="w-full">
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {/* Pillar 1: Focus */}
-            <div className="rounded-lg border border-slate-200 bg-gradient-to-br from-white to-blue-50/30 p-6 transition-all hover:border-blue-200 hover:shadow-md sm:p-7 lg:p-8">
-              <p className="text-xs font-semibold uppercase tracking-widest text-slate-500 sm:text-sm">
-                Focus
-              </p>
-              <p className="mt-2 text-xl font-bold text-slate-900 sm:text-2xl lg:mt-3">
-                AI Products
-              </p>
-              <p className="mt-2 text-sm leading-relaxed text-slate-600 sm:text-base">
-                Mendesain dan mengembangkan produk yang memanfaatkan teknologi AI untuk solusi nyata.
-              </p>
-            </div>
-
-            {/* Pillar 2: Strength */}
-            <div className="rounded-lg border border-slate-200 bg-gradient-to-br from-white to-blue-50/30 p-6 transition-all hover:border-blue-200 hover:shadow-md sm:p-7 lg:p-8">
-              <p className="text-xs font-semibold uppercase tracking-widest text-slate-500 sm:text-sm">
-                Strength
-              </p>
-              <p className="mt-2 text-xl font-bold text-slate-900 sm:text-2xl lg:mt-3">
-                End-to-End Delivery
-              </p>
-              <p className="mt-2 text-sm leading-relaxed text-slate-600 sm:text-base">
-                Mengelola proyek dari discovery hingga launch dengan fokus pada impact dan user satisfaction.
-              </p>
-            </div>
-
-            {/* Pillar 3: Approach */}
-            <div className="rounded-lg border border-slate-200 bg-gradient-to-br from-white to-blue-50/30 p-6 transition-all hover:border-blue-200 hover:shadow-md sm:p-7 lg:p-8 sm:col-span-2 lg:col-span-1">
-              <p className="text-xs font-semibold uppercase tracking-widest text-slate-500 sm:text-sm">
-                Approach
-              </p>
-              <p className="mt-2 text-xl font-bold text-slate-900 sm:text-2xl lg:mt-3">
-                User-Centered
-              </p>
-              <p className="mt-2 text-sm leading-relaxed text-slate-600 sm:text-base">
-                Setiap keputusan produk dimulai dari pemahaman mendalam tentang kebutuhan pengguna.
-              </p>
-            </div>
+            {data.pillars.map((pillar) => (
+              <div
+                key={pillar.title}
+                className="rounded-lg border border-slate-200 bg-gradient-to-br from-white to-blue-50/30 p-6 transition-all hover:border-blue-200 hover:shadow-md sm:p-7 lg:p-8 sm:col-span-2 lg:col-span-1"
+              >
+                <p className="text-xs font-semibold uppercase tracking-widest text-slate-500 sm:text-sm">
+                  {pillar.label}
+                </p>
+                <p className="mt-2 text-xl font-bold text-slate-900 sm:text-2xl lg:mt-3">
+                  {pillar.title}
+                </p>
+                <p className="mt-2 text-sm leading-relaxed text-slate-600 sm:text-base">
+                  {pillar.text}
+                </p>
+              </div>
+            ))}
           </div>
         </div>
       </div>

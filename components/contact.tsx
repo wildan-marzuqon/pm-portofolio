@@ -28,7 +28,7 @@ const Contact = () => {
 
         {/* Main Heading */}
         <h2 className="text-3xl font-bold leading-tight text-slate-900 sm:text-4xl lg:text-5xl xl:text-6xl">
-          Let's build something impactful together.
+          Let&apos;s build something impactful together.
         </h2>
 
         {/* Subtitle */}

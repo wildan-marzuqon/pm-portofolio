@@ -3,6 +3,10 @@
 import React from 'react';
 
 const Projects = () => {
+  // useState menyimpan filter yang sedang aktif.
+  // Nilai awal 'All' berarti semua project ditampilkan dulu.
+  const [activeFilter, setActiveFilter] = React.useState('All');
+
   const projects = [
     {
       title: 'AI Chatbot & Conversational AI Platform',
@@ -17,6 +21,16 @@ const Projects = () => {
       badges: ['System Analysis', 'Agile/Scrum', 'UX Strategy'],
     },
   ];
+
+  const filters = ['All', 'AI Product', 'System Analysis'];
+
+  // Filtering dilakukan di sini:
+  // - jika filter = 'All', tampilkan semua project
+  // - jika tidak, tampilkan project yang punya badge sesuai filter
+  const filteredProjects =
+    activeFilter === 'All'
+      ? projects
+      : projects.filter((project) => project.badges.includes(activeFilter));
 
   const skills = [
     'Product Management',
@@ -41,9 +55,31 @@ const Projects = () => {
           </p>
         </div>
 
+        {/* Filter Buttons */}
+        <div className="mb-8 flex flex-wrap gap-3 sm:mb-10">
+          {filters.map((filter) => {
+            const isActive = activeFilter === filter;
+
+            return (
+              <button
+                key={filter}
+                type="button"
+                onClick={() => setActiveFilter(filter)}
+                className={`rounded-full border px-4 py-2 text-sm font-semibold transition-all sm:px-5 sm:py-2.5 sm:text-base ${
+                  isActive
+                    ? 'border-blue-700 bg-blue-700 text-white shadow-sm'
+                    : 'border-slate-300 bg-white text-slate-700 hover:border-blue-500 hover:bg-blue-50 hover:text-blue-700'
+                }`}
+              >
+                {filter}
+              </button>
+            );
+          })}
+        </div>
+
         {/* Projects Grid */}
         <div className="grid gap-8 sm:grid-cols-1 lg:grid-cols-2 lg:gap-10 mb-16 sm:mb-20 lg:mb-24">
-          {projects.map((project, index) => (
+          {filteredProjects.map((project, index) => (
             <div
               key={index}
               className="group rounded-2xl border border-slate-200 bg-white p-8 transition-all duration-300 hover:border-blue-300 hover:shadow-lg sm:p-10 lg:p-12"
