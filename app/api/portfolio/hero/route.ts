@@ -1,26 +1,46 @@
+import { NextResponse } from 'next/server'
+import { prisma } from '@/lib/prisma'
+
 export async function GET() {
-  return Response.json({
-    badge: 'Product Manager • AI & Digital Products',
-    name: 'Wildan Marzuqon',
-    headline: 'Building AI-Powered Products and Digital Experiences',
-    description:
-      'Saya adalah Product Manager yang menjembatani teknologi AI dan kebutuhan pengguna. Berpengalaman mengelola siklus produk end-to-end—mulai dari discovery, NLP & Chatbot development, hingga delivery produk digital yang berdampak nyata.',
-    pillars: [
-      {
-        label: 'Focus',
-        title: 'AI Products',
-        text: 'Mendesain dan mengembangkan produk yang memanfaatkan teknologi AI untuk solusi nyata.',
+  try {
+    const hero = await prisma.hero.findFirst({
+      include: {
+        pillars: {
+          orderBy: { sortOrder: 'asc' },
+        },
       },
-      {
-        label: 'Strength',
-        title: 'End-to-End Delivery',
-        text: 'Mengelola proyek dari discovery hingga launch dengan fokus pada impact dan user satisfaction.',
-      },
-      {
-        label: 'Approach',
-        title: 'User-Centered',
-        text: 'Setiap keputusan produk dimulai dari pemahaman mendalam tentang kebutuhan pengguna.',
-      },
-    ],
-  });
+    })
+
+    if (!hero) {
+      return NextResponse.json({
+        badge: '',
+        name: '',
+        headline: '',
+        description: '',
+        pillars: [],
+      })
+    }
+
+    return NextResponse.json({
+      badge: hero.badge,
+      name: hero.name,
+      headline: hero.headline,
+      description: hero.description,
+      pillars: hero.pillars.map((pillar) => ({
+        label: pillar.label,
+        title: pillar.title,
+        text: pillar.text,
+      })),
+    })
+  } catch (error) {
+    console.error('Failed to load portfolio hero:', error)
+
+    return NextResponse.json({
+      badge: '',
+      name: '',
+      headline: '',
+      description: '',
+      pillars: [],
+    })
+  }
 }

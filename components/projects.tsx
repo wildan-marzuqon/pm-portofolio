@@ -65,7 +65,7 @@ const Projects = () => {
       : data.projects.filter((project) => project.badges.includes(activeFilter));
 
   return (
-    <section className="bg-slate-50 py-12 sm:py-14 lg:py-16">
+    <section id="projects" className="bg-slate-50 py-12 sm:py-14 lg:py-16">
       <div className="mx-auto w-full max-w-7xl px-6 sm:px-8 lg:px-12">
         {/* Section Label */}
         <div className="mb-12 flex items-center gap-3 sm:mb-14 lg:mb-16">

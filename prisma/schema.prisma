@@ -1,8 +1,6 @@
 // This is your Prisma schema file,
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
-// Get a free hosted Postgres database in seconds: `npx create-db`
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -18,7 +16,68 @@ model Project {
   description String
   category    String
   featured    Boolean  @default(false)
-
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
+}
+
+model Hero {
+  id          String       @id @default(cuid())
+  badge       String
+  name        String
+  headline    String
+  description String
+  pillars     HeroPillar[]
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+}
+
+model HeroPillar {
+  id        String @id @default(cuid())
+  heroId    String
+  hero      Hero   @relation(fields: [heroId], references: [id], onDelete: Cascade)
+  label     String
+  title     String
+  text      String
+  sortOrder Int    @default(0)
+}
+
+model About {
+  id          String   @id @default(cuid())
+  title       String
+  paragraph1  String
+  paragraph2  String
+  highlights  String[]
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Experience {
+  id           String   @id @default(cuid())
+  title        String
+  company      String
+  date         String
+  achievements String[]
+  sortOrder    Int      @default(0)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+model Contact {
+  id          String              @id @default(cuid())
+  heading     String
+  description String
+  email       String
+  copyright   String
+  socialLinks ContactSocialLink[]
+  createdAt   DateTime            @default(now())
+  updatedAt   DateTime            @updatedAt
+}
+
+model ContactSocialLink {
+  id        String  @id @default(cuid())
+  contactId String
+  contact   Contact @relation(fields: [contactId], references: [id], onDelete: Cascade)
+  label     String
+  href      String
+  sortOrder Int     @default(0)
 }
