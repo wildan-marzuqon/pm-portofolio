@@ -1,28 +1,40 @@
 'use client';
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+
+type ExperienceItem = {
+  title: string;
+  company: string;
+  date: string;
+  achievements: string[];
+};
 
 const Experience = () => {
-  const experiences = [
-    {
-      title: 'AI Product Manager',
-      company: 'Tech & AI Solutions Corp',
-      date: '2024 - Present',
-      achievements: [
-        'Memimpin pengembangan end-to-end produk chatbot NLP untuk efisiensi operasional divisi koleksi keuangan, meningkatkan response rate otomatis hingga 40%.',
-        'Mengelola product backlog, menyusun PRD (Product Requirement Document), dan berkolaborasi erat dengan tim AI Engineer dan UI/UX Designer.',
-      ],
-    },
-    {
-      title: 'System Analyst & Project Manager',
-      company: 'Digital Transformation Academy',
-      date: '2022 - 2024',
-      achievements: [
-        'Merancang arsitektur sistem dan memvalidasi skema database untuk platform manajemen operasional skala besar.',
-        'Memimpin tim developer menggunakan metodologi Agile/Scrum, memastikan delivery proyek 15% lebih cepat dari target lini masa.',
-      ],
-    },
-  ];
+  const [experiences, setExperiences] = useState<ExperienceItem[]>([]);
+
+  useEffect(() => {
+    const loadExperience = async () => {
+      try {
+        const response = await fetch('/api/portfolio/experience');
+        const result = (await response.json()) as ExperienceItem[];
+        setExperiences(result);
+      } catch (error) {
+        console.error('Failed to load experience data:', error);
+      }
+    };
+
+    loadExperience();
+  }, []);
+
+  if (!experiences.length) {
+    return (
+      <section className="bg-white py-12 sm:py-14 lg:py-16">
+        <div className="mx-auto w-full max-w-7xl px-6 sm:px-8 lg:px-12">
+          <p className="text-sm text-slate-500">Loading experience content...</p>
+        </div>
+      </section>
+    );
+  }
 
   return (
     <section className="bg-white py-12 sm:py-14 lg:py-16">

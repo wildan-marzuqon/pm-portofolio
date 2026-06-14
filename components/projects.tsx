@@ -1,48 +1,51 @@
 'use client';
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+
+type ProjectItem = {
+  title: string;
+  description: string;
+  badges: string[];
+};
+
+type ProjectsData = {
+  filters: string[];
+  projects: ProjectItem[];
+  skills: string[];
+};
 
 const Projects = () => {
-  // useState menyimpan filter yang sedang aktif.
-  // Nilai awal 'All' berarti semua project ditampilkan dulu.
-  const [activeFilter, setActiveFilter] = React.useState('All');
+  const [activeFilter, setActiveFilter] = useState('All');
+  const [data, setData] = useState<ProjectsData | null>(null);
 
-  const projects = [
-    {
-      title: 'AI Chatbot & Conversational AI Platform',
-      description:
-        'Automated customer support and collection system powered by NLP, reducing operational response times significantly.',
-      badges: ['AI Product', 'NLP', 'Product Discovery'],
-    },
-    {
-      title: 'Enterprise Business Operation System',
-      description:
-        'End-to-end digital transformation platform connecting multi-department workflows and automated reporting dashboards.',
-      badges: ['System Analysis', 'Agile/Scrum', 'UX Strategy'],
-    },
-  ];
+  useEffect(() => {
+    const loadProjects = async () => {
+      try {
+        const response = await fetch('/api/portfolio/projects');
+        const result = (await response.json()) as ProjectsData;
+        setData(result);
+      } catch (error) {
+        console.error('Failed to load projects data:', error);
+      }
+    };
 
-  const filters = ['All', 'AI Product', 'System Analysis'];
+    loadProjects();
+  }, []);
 
-  // Filtering dilakukan di sini:
-  // - jika filter = 'All', tampilkan semua project
-  // - jika tidak, tampilkan project yang punya badge sesuai filter
+  if (!data) {
+    return (
+      <section className="bg-slate-50 py-12 sm:py-14 lg:py-16">
+        <div className="mx-auto w-full max-w-7xl px-6 sm:px-8 lg:px-12">
+          <p className="text-sm text-slate-500">Loading projects content...</p>
+        </div>
+      </section>
+    );
+  }
+
   const filteredProjects =
     activeFilter === 'All'
-      ? projects
-      : projects.filter((project) => project.badges.includes(activeFilter));
-
-  const skills = [
-    'Product Management',
-    'System Analysis',
-    'Agile/Scrum',
-    'Jira',
-    'ClickUp',
-    'Trello',
-    'Notion',
-    'Data Analytics',
-    'User Experience (UX)',
-  ];
+      ? data.projects
+      : data.projects.filter((project) => project.badges.includes(activeFilter));
 
   return (
     <section className="bg-slate-50 py-12 sm:py-14 lg:py-16">
@@ -57,7 +60,7 @@ const Projects = () => {
 
         {/* Filter Buttons */}
         <div className="mb-8 flex flex-wrap gap-3 sm:mb-10">
-          {filters.map((filter) => {
+          {['All', ...data.filters.filter((filter) => filter !== 'All')].map((filter) => {
             const isActive = activeFilter === filter;
 
             return (
@@ -122,7 +125,7 @@ const Projects = () => {
 
           {/* Skills Badge Grid */}
           <div className="flex flex-wrap gap-3 sm:gap-4">
-            {skills.map((skill, index) => (
+            {data.skills.map((skill, index) => (
               <div
                 key={index}
                 className="rounded-full border border-slate-300 bg-white px-4 py-2 text-sm font-medium text-slate-700 transition-all hover:border-blue-500 hover:bg-blue-50 hover:text-blue-700 sm:px-5 sm:py-2.5 sm:text-base"

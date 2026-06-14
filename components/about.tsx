@@ -1,14 +1,41 @@
 'use client';
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { CheckCircle2 } from 'lucide-react';
 
+type AboutData = {
+  highlights: string[];
+  title: string;
+  paragraph1: string;
+  paragraph2: string;
+};
+
 const About = () => {
-  const highlights = [
-    'MBA Graduate (Focus on UX & Product Value Strategy)',
-    'End-to-End AI & Chatbot Product Lifecycle',
-    'Data-Driven Analysis & Systems Architecture',
-  ];
+  const [data, setData] = useState<AboutData | null>(null);
+
+  useEffect(() => {
+    const loadAbout = async () => {
+      try {
+        const response = await fetch('/api/portfolio/about');
+        const result = (await response.json()) as AboutData;
+        setData(result);
+      } catch (error) {
+        console.error('Failed to load about data:', error);
+      }
+    };
+
+    loadAbout();
+  }, []);
+
+  if (!data) {
+    return (
+      <section className="bg-slate-50 py-12 sm:py-14 lg:py-16">
+        <div className="mx-auto w-full max-w-7xl px-6 sm:px-8 lg:px-12">
+          <p className="text-sm text-slate-500">Loading about content...</p>
+        </div>
+      </section>
+    );
+  }
 
   return (
     <section className="bg-slate-50 py-12 sm:py-14 lg:py-16">
@@ -26,7 +53,7 @@ const About = () => {
           {/* Left Column: Philosophy */}
           <div className="flex flex-col justify-start">
             <h2 className="text-2xl font-bold leading-snug text-slate-900 sm:text-3xl lg:text-4xl xl:text-4xl">
-              Bridging the gap between complex AI technology, human user experience, and business strategy.
+              {data.title}
             </h2>
           </div>
 
@@ -34,17 +61,17 @@ const About = () => {
           <div className="flex flex-col gap-8 sm:gap-10">
             {/* Paragraph 1 */}
             <p className="text-base leading-relaxed text-slate-600 sm:text-lg sm:leading-relaxed">
-              Saya adalah seorang Product Manager dan System Analyst yang berfokus pada pengembangan produk digital berbasis AI, chatbot, dan otomasi proses bisnis. Berpengalaman dalam memimpin tim lintas fungsional dari tahap awal riset hingga produk berhasil diluncurkan ke pasar.
+              {data.paragraph1}
             </p>
 
             {/* Paragraph 2 */}
             <p className="text-base leading-relaxed text-slate-600 sm:text-lg sm:leading-relaxed">
-              Dengan latar belakang akademis magister bisnis (MBA) yang mendalami perilaku pengguna dan analisis nilai produk, saya selalu mengombinasikan pendekatan data-driven dengan empati mendalam terhadap kebutuhan pengguna (user-centered design) untuk menciptakan solusi yang berdampak nyata.
+              {data.paragraph2}
             </p>
 
             {/* Quick Highlights Grid */}
             <div className="grid gap-4 pt-4 sm:gap-6 sm:pt-6">
-              {highlights.map((highlight, index) => (
+              {data.highlights.map((highlight, index) => (
                 <div key={index} className="flex items-start gap-3 sm:gap-4">
                   <CheckCircle2
                     size={24}
