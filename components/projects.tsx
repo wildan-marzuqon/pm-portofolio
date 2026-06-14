@@ -22,8 +22,25 @@ const Projects = () => {
     const loadProjects = async () => {
       try {
         const response = await fetch('/api/portfolio/projects');
-        const result = (await response.json()) as ProjectsData;
-        setData(result);
+        const result = await response.json();
+
+        const normalizedData = Array.isArray(result)
+          ? {
+              filters: ['All'],
+              projects: result.map((project: ProjectItem) => ({
+                title: project.title ?? 'Untitled Project',
+                description: project.description ?? '',
+                badges: Array.isArray(project.badges) ? project.badges : [],
+              })),
+              skills: [],
+            }
+          : {
+              filters: Array.isArray(result?.filters) ? result.filters : ['All'],
+              projects: Array.isArray(result?.projects) ? result.projects : [],
+              skills: Array.isArray(result?.skills) ? result.skills : [],
+            };
+
+        setData(normalizedData as ProjectsData);
       } catch (error) {
         console.error('Failed to load projects data:', error);
       }
