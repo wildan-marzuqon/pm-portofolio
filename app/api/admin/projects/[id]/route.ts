@@ -6,17 +6,65 @@ type RouteContext = {
   params: Promise<{ id: string }>
 }
 
-export async function PUT(request: NextRequest, context: RouteContext) {
+export async function PUT(request: NextRequest, routeContext: RouteContext) {
   if (!isAdminAuthorized(request)) return unauthorizedResponse()
 
   try {
-    const { id } = await context.params
+    const { id } = await routeContext.params
     const body = await request.json()
-    const { title, slug, description, category, featured } = body
+    const {
+      title,
+      slug,
+      subtitle,
+      description,
+      overview,
+      category,
+      context: projectContext,
+      problem,
+      goals,
+      approach,
+      solution,
+      businessImpact,
+      metrics,
+      timeline,
+      role,
+      team,
+      deliverables,
+      tools,
+      images,
+      documents,
+      featured,
+      published,
+      sortOrder,
+    } = body
 
     const project = await prisma.project.update({
       where: { id },
-      data: { title, slug, description, category, featured: featured ?? false },
+      data: {
+        title,
+        slug,
+        subtitle: subtitle ?? '',
+        description,
+        overview: overview ?? '',
+        category,
+        context: projectContext ?? '',
+        problem: problem ?? '',
+        goals: Array.isArray(goals) ? goals : [],
+        approach: approach ?? '',
+        solution: solution ?? '',
+        businessImpact: businessImpact ?? '',
+        metrics: Array.isArray(metrics) ? metrics : [],
+        timeline: timeline ?? '',
+        role: role ?? '',
+        team: Array.isArray(team) ? team : [],
+        deliverables: Array.isArray(deliverables) ? deliverables : [],
+        tools: Array.isArray(tools) ? tools : [],
+        images: Array.isArray(images) ? images : [],
+        documents: Array.isArray(documents) ? documents : [],
+        featured: featured ?? false,
+        published: published ?? true,
+        sortOrder: Number.isFinite(Number(sortOrder)) ? Number(sortOrder) : 0,
+      },
     })
 
     return NextResponse.json(project)
@@ -26,11 +74,11 @@ export async function PUT(request: NextRequest, context: RouteContext) {
   }
 }
 
-export async function DELETE(request: NextRequest, context: RouteContext) {
+export async function DELETE(request: NextRequest, routeContext: RouteContext) {
   if (!isAdminAuthorized(request)) return unauthorizedResponse()
 
   try {
-    const { id } = await context.params
+    const { id } = await routeContext.params
     await prisma.project.delete({ where: { id } })
     return NextResponse.json({ ok: true })
   } catch (error) {

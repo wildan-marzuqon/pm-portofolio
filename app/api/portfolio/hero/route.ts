@@ -3,7 +3,7 @@ import { prisma } from '@/lib/prisma'
 
 export async function GET() {
   try {
-    const hero = await (prisma as any).hero.findFirst({
+    const hero = await prisma.hero.findFirst({
       include: {
         pillars: {
           orderBy: { sortOrder: 'asc' },

@@ -10,14 +10,32 @@ datasource db {
 }
 
 model Project {
-  id          String   @id @default(cuid())
-  title       String
-  slug        String   @unique
-  description String
-  category    String
-  featured    Boolean  @default(false)
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  id             String   @id @default(cuid())
+  title          String
+  slug           String   @unique
+  subtitle       String   @default("")
+  description    String
+  overview       String   @default("")
+  category       String
+  context        String   @default("")
+  problem        String   @default("")
+  goals          String[]
+  approach       String   @default("")
+  solution       String   @default("")
+  businessImpact String   @default("")
+  metrics        String[]
+  timeline       String   @default("")
+  role           String   @default("")
+  team           String[]
+  deliverables   String[]
+  tools          String[]
+  images         String[]
+  documents      String[]
+  featured       Boolean  @default(false)
+  published      Boolean  @default(true)
+  sortOrder      Int      @default(0)
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
 }
 
 model Hero {

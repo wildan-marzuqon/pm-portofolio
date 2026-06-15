@@ -1,11 +1,14 @@
 'use client';
 
+import Link from 'next/link';
 import React, { useEffect, useState } from 'react';
 
 type ProjectItem = {
   title: string;
+  slug: string;
   description: string;
   badges: string[];
+  featured?: boolean;
 };
 
 type ProjectsData = {
@@ -29,8 +32,10 @@ const Projects = () => {
               filters: ['All'],
               projects: result.map((project: ProjectItem) => ({
                 title: project.title ?? 'Untitled Project',
+                slug: project.slug ?? '',
                 description: project.description ?? '',
                 badges: Array.isArray(project.badges) ? project.badges : [],
+                featured: Boolean(project.featured),
               })),
               skills: [],
             }
@@ -100,14 +105,22 @@ const Projects = () => {
         {/* Projects Grid */}
         <div className="grid gap-8 sm:grid-cols-1 lg:grid-cols-2 lg:gap-10 mb-16 sm:mb-20 lg:mb-24">
           {filteredProjects.map((project, index) => (
-            <div
-              key={index}
-              className="group rounded-2xl border border-slate-200 bg-white p-8 transition-all duration-300 hover:border-blue-300 hover:shadow-lg sm:p-10 lg:p-12"
+            <Link
+              key={`${project.slug}-${index}`}
+              href={project.slug ? `/projects/${project.slug}` : '#projects'}
+              className="group rounded-lg border border-slate-200 bg-white p-8 transition-all duration-300 hover:border-blue-300 hover:shadow-lg sm:p-10 lg:p-12"
             >
               {/* Project Title */}
-              <h3 className="text-xl font-bold text-slate-900 transition-colors group-hover:text-blue-700 sm:text-2xl lg:text-2xl">
-                {project.title}
-              </h3>
+              <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+                <h3 className="text-xl font-bold text-slate-900 transition-colors group-hover:text-blue-700 sm:text-2xl lg:text-2xl">
+                  {project.title}
+                </h3>
+                {project.featured ? (
+                  <span className="w-fit rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold text-slate-600">
+                    Featured
+                  </span>
+                ) : null}
+              </div>
 
               {/* Project Description */}
               <p className="mt-4 leading-relaxed text-slate-600 sm:text-lg sm:mt-5 lg:mt-6">
@@ -125,7 +138,10 @@ const Projects = () => {
                   </span>
                 ))}
               </div>
-            </div>
+              <span className="mt-8 inline-flex text-sm font-bold text-blue-700 transition-transform group-hover:translate-x-1">
+                View case study
+              </span>
+            </Link>
           ))}
         </div>
 

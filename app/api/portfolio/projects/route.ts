@@ -4,13 +4,16 @@ import { prisma } from '@/lib/prisma'
 export async function GET() {
   try {
     const rows = await prisma.project.findMany({
-      orderBy: { createdAt: 'desc' },
+      where: { published: true },
+      orderBy: [{ sortOrder: 'asc' }, { createdAt: 'desc' }],
     })
 
     const projects = rows.map((project) => ({
       title: project.title,
+      slug: project.slug,
       description: project.description,
       badges: [project.category].filter(Boolean),
+      featured: project.featured,
     }))
 
     const filters = Array.from(new Set(['All', ...rows.map((project) => project.category).filter(Boolean)]))

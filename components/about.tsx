@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import { CheckCircle2 } from 'lucide-react';
+import { CheckCircle2, Compass, Layers3, Sparkles } from 'lucide-react';
 
 type AboutData = {
   highlights: string[];
@@ -29,55 +29,77 @@ const About = () => {
 
   if (!data) {
     return (
-      <section className="bg-slate-50 py-12 sm:py-14 lg:py-16">
+      <section className="bg-slate-50 py-16 sm:py-20 lg:py-24">
         <div className="mx-auto w-full max-w-7xl px-6 sm:px-8 lg:px-12">
-          <p className="text-sm text-slate-500">Loading about content...</p>
+          <div className="h-80 animate-pulse rounded-lg border border-blue-100 bg-white" />
         </div>
       </section>
     );
   }
 
   return (
-    <section className="bg-slate-50 py-12 sm:py-14 lg:py-16">
-      <div className="mx-auto w-full max-w-7xl px-6 sm:px-8 lg:px-12">
-        {/* Section Label */}
-        <div className="mb-12 flex items-center gap-3 sm:mb-14 lg:mb-16">
-          <div className="h-1 w-12 bg-blue-700" />
-          <p className="text-xs font-bold uppercase tracking-[0.2em] text-blue-700 sm:text-sm">
-            About Me
-          </p>
-        </div>
+    <section className="relative overflow-hidden bg-slate-50 py-16 sm:py-20 lg:py-24">
+      <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-blue-200 to-transparent" />
 
-        {/* 2-Column Layout */}
-        <div className="grid gap-12 lg:grid-cols-2 lg:gap-16 xl:gap-20">
-          {/* Left Column: Philosophy */}
-          <div className="flex flex-col justify-start">
-            <h2 className="text-2xl font-bold leading-snug text-slate-900 sm:text-3xl lg:text-4xl xl:text-4xl">
+      <div className="mx-auto w-full max-w-7xl px-6 sm:px-8 lg:px-12">
+        <div className="grid gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:items-start lg:gap-14 xl:gap-20">
+          <div className="lg:sticky lg:top-10">
+            <div className="mb-7 inline-flex items-center gap-3 rounded-full border border-blue-100 bg-white px-4 py-2 shadow-sm shadow-blue-100/60">
+              <span className="flex size-8 items-center justify-center rounded-full bg-blue-700 text-white">
+                <Sparkles size={16} />
+              </span>
+              <p className="text-xs font-bold uppercase tracking-[0.2em] text-blue-700 sm:text-sm">
+                About Me
+              </p>
+            </div>
+
+            <h2 className="max-w-xl text-3xl font-bold leading-tight text-slate-950 sm:text-4xl lg:text-5xl">
               {data.title}
             </h2>
+
+            <div className="mt-8 grid grid-cols-2 gap-3 sm:max-w-md">
+              <div className="rounded-lg border border-blue-100 bg-white p-4 shadow-sm">
+                <Compass size={22} className="text-blue-700" />
+                <p className="mt-3 text-xs font-semibold uppercase tracking-widest text-slate-500">
+                  Direction
+                </p>
+                <p className="mt-1 text-sm font-bold text-slate-900">
+                  Product clarity
+                </p>
+              </div>
+              <div className="rounded-lg border border-blue-100 bg-white p-4 shadow-sm">
+                <Layers3 size={22} className="text-blue-700" />
+                <p className="mt-3 text-xs font-semibold uppercase tracking-widest text-slate-500">
+                  Focus
+                </p>
+                <p className="mt-1 text-sm font-bold text-slate-900">
+                  Useful systems
+                </p>
+              </div>
+            </div>
           </div>
 
-          {/* Right Column: Narrative & Highlights */}
-          <div className="flex flex-col gap-8 sm:gap-10">
-            {/* Paragraph 1 */}
-            <p className="text-base leading-relaxed text-slate-600 sm:text-lg sm:leading-relaxed">
-              {data.paragraph1}
-            </p>
+          <div className="rounded-lg border border-blue-100 bg-white p-6 shadow-xl shadow-blue-100/50 sm:p-8 lg:p-10">
+            <div className="space-y-6 border-b border-slate-200 pb-8">
+              <p className="text-base leading-8 text-slate-600 sm:text-lg sm:leading-9">
+                {data.paragraph1}
+              </p>
 
-            {/* Paragraph 2 */}
-            <p className="text-base leading-relaxed text-slate-600 sm:text-lg sm:leading-relaxed">
-              {data.paragraph2}
-            </p>
+              <p className="text-base leading-8 text-slate-600 sm:text-lg sm:leading-9">
+                {data.paragraph2}
+              </p>
+            </div>
 
-            {/* Quick Highlights Grid */}
-            <div className="grid gap-4 pt-4 sm:gap-6 sm:pt-6">
+            <div className="grid gap-4 pt-8 sm:grid-cols-2">
               {data.highlights.map((highlight, index) => (
-                <div key={index} className="flex items-start gap-3 sm:gap-4">
-                  <CheckCircle2
-                    size={24}
-                    className="mt-0.5 flex-shrink-0 text-blue-700 sm:size-6"
-                  />
-                  <p className="text-sm font-semibold leading-relaxed text-slate-900 sm:text-base">
+                <div
+                  key={index}
+                  className="group flex min-h-28 items-start gap-4 rounded-lg border border-slate-200 bg-slate-50/80 p-4 transition-all hover:border-blue-200 hover:bg-blue-50/70"
+                >
+                  <span className="mt-0.5 flex size-9 flex-shrink-0 items-center justify-center rounded-full bg-blue-700 text-white shadow-sm transition-transform group-hover:scale-105">
+                    <CheckCircle2 size={19} />
+                  </span>
+                  <p className="text-sm font-semibold leading-7 text-slate-900 sm:text-base">
                     {highlight}
                   </p>
                 </div>

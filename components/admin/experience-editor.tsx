@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import { adminFetch } from '@/lib/admin-fetch'
-import { AdminCard, Alert, Button, Field, Input, ListEditor, Textarea } from './ui'
+import { AdminCard, Alert, Button, Field, Input, ListEditor } from './ui'
 
 type ExperienceItem = {
   id?: string
@@ -29,8 +29,8 @@ export function ExperienceEditor() {
   const [saving, setSaving] = useState(false)
   const [message, setMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null)
 
-  const load = async () => {
-    setLoading(true)
+  const load = async (showLoading = true) => {
+    if (showLoading) setLoading(true)
     try {
       const data = await adminFetch<ExperienceItem[]>('/api/admin/experience')
       setItems(data)
@@ -42,7 +42,9 @@ export function ExperienceEditor() {
   }
 
   useEffect(() => {
-    load()
+    queueMicrotask(() => {
+      load(false)
+    })
   }, [])
 
   const resetDraft = () => {

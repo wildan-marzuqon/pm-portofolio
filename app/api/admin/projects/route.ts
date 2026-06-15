@@ -7,7 +7,7 @@ export async function GET(request: NextRequest) {
 
   try {
     const projects = await prisma.project.findMany({
-      orderBy: { createdAt: 'desc' },
+      orderBy: [{ sortOrder: 'asc' }, { createdAt: 'desc' }],
     })
 
     return NextResponse.json(projects)
@@ -22,15 +22,57 @@ export async function POST(request: NextRequest) {
 
   try {
     const body = await request.json()
-    const { title, slug, description, category, featured } = body
+    const {
+      title,
+      slug,
+      subtitle,
+      description,
+      overview,
+      category,
+      context,
+      problem,
+      goals,
+      approach,
+      solution,
+      businessImpact,
+      metrics,
+      timeline,
+      role,
+      team,
+      deliverables,
+      tools,
+      images,
+      documents,
+      featured,
+      published,
+      sortOrder,
+    } = body
 
     const project = await prisma.project.create({
       data: {
         title,
         slug,
+        subtitle: subtitle ?? '',
         description,
+        overview: overview ?? '',
         category,
+        context: context ?? '',
+        problem: problem ?? '',
+        goals: Array.isArray(goals) ? goals : [],
+        approach: approach ?? '',
+        solution: solution ?? '',
+        businessImpact: businessImpact ?? '',
+        metrics: Array.isArray(metrics) ? metrics : [],
+        timeline: timeline ?? '',
+        role: role ?? '',
+        team: Array.isArray(team) ? team : [],
+        deliverables: Array.isArray(deliverables) ? deliverables : [],
+        tools: Array.isArray(tools) ? tools : [],
+        images: Array.isArray(images) ? images : [],
+        documents: Array.isArray(documents) ? documents : [],
         featured: featured ?? false,
+        published: published ?? true,
+        sortOrder: Number.isFinite(Number(sortOrder)) ? Number(sortOrder) : 0,
       },
     })
 

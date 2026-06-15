@@ -177,34 +177,146 @@ async function seedProjects() {
     {
       slug: 'nlp-collection-chatbot',
       title: 'NLP Collection Chatbot',
+      subtitle: 'Automating borrower conversations with intent-aware NLP flows.',
       description:
         'Chatbot berbasis NLP untuk otomasi respons koleksi keuangan, meningkatkan efisiensi operasional dan response rate otomatis.',
+      overview:
+        'Produk chatbot yang membantu tim collection menangani percakapan berulang, mengklasifikasikan intent nasabah, dan mengarahkan kasus kompleks ke agent manusia dengan konteks yang lebih lengkap.',
       category: 'AI & NLP',
+      context:
+        'Tim collection menerima volume percakapan tinggi dari berbagai kanal, sementara sebagian besar pertanyaan dan respons nasabah memiliki pola yang berulang.',
+      problem:
+        'Agent menghabiskan banyak waktu untuk menangani percakapan dasar, response time tidak konsisten, dan tim sulit melihat pola intent yang paling sering muncul.',
+      goals: [
+        'Mengurangi beban percakapan repetitif untuk agent collection.',
+        'Meningkatkan konsistensi jawaban pada skenario umum.',
+        'Menyediakan insight intent nasabah untuk iterasi strategi collection.',
+      ],
+      approach:
+        'Saya memulai dari discovery bersama tim operasional, memetakan conversation journey, menyusun intent taxonomy, lalu memprioritaskan flow berdasarkan volume dan risiko bisnis.',
+      solution:
+        'Chatbot NLP dengan intent detection, fallback routing, human handoff, dan dashboard ringkas untuk melihat intent, containment rate, serta percakapan yang butuh perbaikan.',
+      businessImpact:
+        'Membantu tim menangani volume percakapan lebih besar tanpa menambah kapasitas agent secara linear, sekaligus mempercepat respons awal ke nasabah.',
+      metrics: ['40% automated response rate uplift', '28% faster first response time', '18 top intents mapped'],
+      timeline: '12 weeks, from discovery to controlled rollout',
+      role: 'Product Manager',
+      team: ['AI Engineer', 'Backend Engineer', 'UI/UX Designer', 'Collection Operations Lead'],
+      deliverables: ['Product Requirement Document', 'Intent taxonomy', 'Conversation flow map', 'UAT scenario list', 'Rollout checklist'],
+      tools: ['Figma', 'Jira', 'PostgreSQL', 'NLP intent classifier', 'Metabase'],
+      images: ['/globe.svg', '/window.svg'],
+      documents: ['PRD summary', 'Conversation flow deck', 'UAT checklist'],
       featured: true,
+      published: true,
+      sortOrder: 0,
     },
     {
       slug: 'product-discovery-platform',
       title: 'Product Discovery Platform',
+      subtitle: 'A structured workspace for validating ideas before they enter delivery.',
       description:
         'Platform internal untuk mengelola discovery, validasi ide produk, dan prioritas backlog berbasis data pengguna.',
+      overview:
+        'Platform internal yang menyatukan ide produk, evidence dari riset, scoring prioritas, dan keputusan go/no-go agar proses discovery lebih transparan.',
       category: 'Product Strategy',
+      context:
+        'Ide produk datang dari banyak stakeholder dengan format yang berbeda-beda, sehingga diskusi prioritas sering bergantung pada urgency jangka pendek.',
+      problem:
+        'Tim sulit membandingkan peluang produk secara objektif karena data riset, estimasi effort, dan business value tersebar di banyak dokumen.',
+      goals: [
+        'Membuat pipeline ide produk yang mudah ditelusuri.',
+        'Membantu stakeholder melihat alasan prioritas secara transparan.',
+        'Mengurangi ide yang masuk delivery tanpa validasi cukup.',
+      ],
+      approach:
+        'Saya merancang scoring framework berbasis desirability, viability, feasibility, dan strategic fit, lalu menguji alurnya bersama product owner dan business team.',
+      solution:
+        'Workspace discovery dengan intake form, evidence library, scoring model, status workflow, dan summary yang bisa dipakai untuk product review.',
+      businessImpact:
+        'Meningkatkan kualitas keputusan prioritas dan membantu tim fokus pada peluang dengan evidence paling kuat.',
+      metrics: ['35% shorter prioritization cycle', '4 scoring dimensions standardized', '24 discovery items reviewed in pilot'],
+      timeline: '8 weeks, from workflow audit to internal pilot',
+      role: 'Product Manager & System Analyst',
+      team: ['Product Owner', 'Business Analyst', 'Frontend Engineer', 'Backend Engineer'],
+      deliverables: ['Discovery workflow map', 'Scoring framework', 'MVP backlog', 'Admin dashboard spec'],
+      tools: ['Figma', 'Notion', 'Jira', 'Google Sheets', 'PostgreSQL'],
+      images: ['/window.svg', '/file.svg'],
+      documents: ['Discovery framework', 'MVP backlog', 'Stakeholder review notes'],
       featured: true,
+      published: true,
+      sortOrder: 1,
     },
     {
       slug: 'operational-dashboard',
       title: 'Operational Dashboard',
+      subtitle: 'Real-time operational visibility for faster product decisions.',
       description:
         'Dashboard analitik real-time untuk memantau KPI operasional dan mendukung keputusan produk berbasis metrik.',
+      overview:
+        'Dashboard operasional yang menggabungkan metrik utama dari beberapa sumber data untuk membantu leadership melihat performa harian dan anomali lebih cepat.',
       category: 'Data & Analytics',
+      context:
+        'Laporan operasional dibuat manual dari beberapa spreadsheet dan sistem internal, sehingga insight sering terlambat saat kondisi berubah cepat.',
+      problem:
+        'Tim membutuhkan satu sumber kebenaran untuk KPI operasional, tetapi definisi metrik dan cadence pelaporan belum konsisten.',
+      goals: [
+        'Menyatukan KPI utama dalam satu dashboard yang mudah dipantau.',
+        'Mengurangi pekerjaan manual dalam pelaporan rutin.',
+        'Mempercepat deteksi issue operasional yang berdampak ke user.',
+      ],
+      approach:
+        'Saya memfasilitasi metric definition workshop, memvalidasi sumber data, lalu menyusun dashboard hierarchy dari executive summary hingga drill-down operasional.',
+      solution:
+        'Dashboard real-time dengan KPI cards, trend chart, segment breakdown, dan alert sederhana untuk metrik yang melewati threshold.',
+      businessImpact:
+        'Mempercepat proses review operasional dan mengurangi waktu yang dihabiskan untuk menyusun laporan manual.',
+      metrics: ['60% less manual reporting effort', '12 KPI definitions aligned', 'Daily review time reduced by 30 minutes'],
+      timeline: '10 weeks, from metric alignment to dashboard launch',
+      role: 'Product Manager',
+      team: ['Data Analyst', 'Backend Engineer', 'Operations Manager'],
+      deliverables: ['Metric dictionary', 'Dashboard wireframe', 'Data validation checklist', 'Launch training material'],
+      tools: ['Metabase', 'PostgreSQL', 'Figma', 'dbt', 'Google Analytics'],
+      images: ['/globe.svg', '/file.svg'],
+      documents: ['Metric dictionary', 'Dashboard launch guide', 'Data QA checklist'],
       featured: false,
+      published: true,
+      sortOrder: 2,
     },
     {
       slug: 'ai-assistant-workflow',
       title: 'AI Assistant Workflow',
+      subtitle: 'Contextual AI recommendations embedded in daily operational tasks.',
       description:
         'Orkestrasi workflow AI assistant untuk mendukung tim operasional dengan rekomendasi kontekstual dan otomasi tugas.',
+      overview:
+        'Workflow AI assistant yang memberikan rekomendasi langkah berikutnya, ringkasan konteks, dan template respons untuk membantu tim operasional menyelesaikan tugas lebih cepat.',
       category: 'AI & NLP',
+      context:
+        'Tim operasional perlu berpindah antar sistem untuk memahami konteks kasus sebelum mengambil keputusan atau mengirim respons ke user.',
+      problem:
+        'Proses mencari konteks memakan waktu, kualitas rekomendasi antar agent bervariasi, dan knowledge base jarang digunakan karena tidak muncul di momen kerja.',
+      goals: [
+        'Mengurangi waktu pencarian konteks sebelum agent bertindak.',
+        'Membuat rekomendasi operasional lebih konsisten.',
+        'Mendorong penggunaan knowledge base di dalam workflow harian.',
+      ],
+      approach:
+        'Saya memetakan task flow agent, mengidentifikasi decision points, lalu mendesain AI prompt dan guardrail bersama engineer agar rekomendasi tetap relevan dan aman.',
+      solution:
+        'AI assistant workflow dengan context retrieval, recommended next action, response draft, dan feedback loop untuk mengevaluasi kualitas rekomendasi.',
+      businessImpact:
+        'Membantu agent menyelesaikan kasus lebih cepat dengan konteks yang lebih lengkap, sekaligus memberi data feedback untuk peningkatan knowledge base.',
+      metrics: ['22% shorter handling time in pilot', '15 reusable prompt templates', '80% recommendation usefulness score'],
+      timeline: '14 weeks, from prototype to pilot rollout',
+      role: 'AI Product Manager',
+      team: ['AI Engineer', 'Prompt Engineer', 'Operations SME', 'Frontend Engineer'],
+      deliverables: ['Workflow blueprint', 'Prompt library', 'Guardrail checklist', 'Pilot evaluation report'],
+      tools: ['Figma', 'OpenAI API', 'Jira', 'PostgreSQL', 'LangSmith'],
+      images: ['/window.svg', '/globe.svg'],
+      documents: ['Workflow blueprint', 'Prompt evaluation sheet', 'Pilot report'],
       featured: true,
+      published: true,
+      sortOrder: 3,
     },
   ]
 
@@ -213,9 +325,27 @@ async function seedProjects() {
       where: { slug: project.slug },
       update: {
         title: project.title,
+        subtitle: project.subtitle,
         description: project.description,
+        overview: project.overview,
         category: project.category,
+        context: project.context,
+        problem: project.problem,
+        goals: project.goals,
+        approach: project.approach,
+        solution: project.solution,
+        businessImpact: project.businessImpact,
+        metrics: project.metrics,
+        timeline: project.timeline,
+        role: project.role,
+        team: project.team,
+        deliverables: project.deliverables,
+        tools: project.tools,
+        images: project.images,
+        documents: project.documents,
         featured: project.featured,
+        published: project.published,
+        sortOrder: project.sortOrder,
       },
       create: project,
     })
